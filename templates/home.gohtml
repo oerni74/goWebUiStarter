@@ -2,6 +2,26 @@
     Go Web UI Starter
 {{ end }}
 {{ define "content" }}
-    <h2>Hello, World!</h2>
-    <p>Some Data passed into the template: {{ . }}</p>
+    <h1>Hello, World!</h1>
+
+    <h2>Block Example (Guessing Game)</h2>
+    <form hx-get="/api/check-number"
+          hx-swap="innerHTML"
+          hx-indicator="#indicator">
+        <label for="numberGuess">Number Guess:</label>
+        <input type="number" id="numberGuess" name="numberGuess"/>
+        {{ with . }}
+            <div id="response-container">
+                {{ block "response" . }}
+                    {{ if .IsCorrect }}
+                        Congrats. The Guess {{ .Guess }} was right!
+                    {{ else }}
+                        The secret number is {{ .Hint }}! Try again!
+                    {{ end }}
+                {{ end }}
+            </div>
+        {{ end }}
+        <button type="submit">Send</button>
+        <span id="indicator" class="htmx-indicator">Loading...</span>
+    </form>
 {{ end }}

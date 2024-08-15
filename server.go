@@ -12,7 +12,10 @@ type StarterServer struct {
 }
 
 func NewStarterServer() *StarterServer {
-	server := &StarterServer{Mux: http.NewServeMux(), Templates: templates.ParseTemplates()}
+	server := &StarterServer{
+		Mux:       http.NewServeMux(),
+		Templates: templates.ParseTemplates(),
+	}
 
 	server.registerRoutes()
 
@@ -20,6 +23,10 @@ func NewStarterServer() *StarterServer {
 }
 
 func (s *StarterServer) registerRoutes() {
+	// View Handler
 	s.Mux.HandleFunc("GET /", s.homeView)
 	s.Mux.HandleFunc("GET /about", s.aboutView)
+
+	// API Handler
+	s.Mux.HandleFunc("GET /api/check-number", s.checkNumber)
 }
