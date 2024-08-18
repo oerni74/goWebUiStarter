@@ -1,10 +1,14 @@
 package main
 
 import (
+	"embed"
 	"goWebUIStarter/templates"
 	"html/template"
 	"net/http"
 )
+
+//go:embed static
+var static embed.FS
 
 type StarterServer struct {
 	Mux       *http.ServeMux
@@ -29,4 +33,7 @@ func (s *StarterServer) registerRoutes() {
 
 	// API Handler
 	s.Mux.HandleFunc("GET /api/check-number", s.checkNumber)
+
+	// Static
+	s.Mux.Handle("GET /static/*", http.FileServer(http.FS(static)))
 }

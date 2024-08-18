@@ -7,20 +7,27 @@
     <h2>Block Example (Guessing Game)</h2>
     <form hx-get="/api/check-number"
           hx-swap="innerHTML"
+          hx-target="#response-container"
           hx-indicator="#indicator">
-        <label for="numberGuess">Number Guess:</label>
-        <input type="number" id="numberGuess" name="numberGuess"/>
-        {{ with . }}
-            <div id="response-container">
-                {{ block "response" . }}
+        <label>Number Guess:
+            <input type="number" id="numberGuess" name="numberGuess"/>
+        </label>
+
+        <div id="response-container">
+            {{ with . }}
+                {{- /*gotype: goWebUIStarter.guessResponse*/ -}}
+                {{ block "guess-response" . }}
                     {{ if .IsCorrect }}
                         Congrats. The Guess {{ .Guess }} was right!
+                        <br>
                     {{ else }}
-                        The secret number is {{ .Hint }}! Try again!
+                        {{ .Hint }}!
+                        <br>
                     {{ end }}
                 {{ end }}
-            </div>
-        {{ end }}
+            {{ end }}
+        </div>
+
         <button type="submit">Send</button>
         <span id="indicator" class="htmx-indicator">Loading...</span>
     </form>

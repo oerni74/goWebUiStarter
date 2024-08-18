@@ -16,9 +16,11 @@ type guessResponse struct {
 
 func (s *StarterServer) checkNumber(w http.ResponseWriter, req *http.Request) {
 	slog.Info("Check Number called")
+
 	var response guessResponse
-	guessedNumber := req.PostFormValue("numberGuess")
+	guessedNumber := req.FormValue("numberGuess")
 	guess, _ := strconv.Atoi(guessedNumber)
+
 	if guess > secretNumber {
 		response = guessResponse{
 			IsCorrect: false,
@@ -39,7 +41,7 @@ func (s *StarterServer) checkNumber(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	err := s.Templates["home"].ExecuteTemplate(w, indexTemplateName, response)
+	err := s.Templates["home"].ExecuteTemplate(w, "guess-response", response)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

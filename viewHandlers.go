@@ -1,20 +1,19 @@
 package main
 
 import (
+	"goWebUIStarter/templates"
 	"net/http"
 )
 
-const indexTemplateName = "index.gohtml"
-
 func (s *StarterServer) homeView(w http.ResponseWriter, req *http.Request) {
-	err := s.Templates["home"].ExecuteTemplate(w, indexTemplateName, nil)
+	err := s.Templates[templates.HomeTemplate].ExecuteTemplate(w, templates.IndexTemplateName, nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
 func (s *StarterServer) aboutView(w http.ResponseWriter, req *http.Request) {
-	err := s.Templates["about"].ExecuteTemplate(w, indexTemplateName, nil)
+	err := s.Templates[templates.AboutTemplate].ExecuteTemplate(w, templates.IndexTemplateName, nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
