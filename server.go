@@ -27,12 +27,12 @@ func NewStarterServer() *StarterServer {
 }
 
 func (s *StarterServer) registerRoutes() {
-	// View Handler
+	// Page Handlers
 	s.Mux.HandleFunc("GET /", s.homeView)
 	s.Mux.HandleFunc("GET /about", s.aboutView)
 
-	// API Handler
-	s.Mux.HandleFunc("GET /api/check-number", s.checkNumber)
+	// Fragment Handlers
+	s.Mux.HandleFunc("GET /check-number", s.checkNumber)
 
 	// Static
 	s.Mux.Handle("GET /static/*", http.FileServer(http.FS(static)))

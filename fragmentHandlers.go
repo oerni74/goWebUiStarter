@@ -1,6 +1,7 @@
 package main
 
 import (
+	"goWebUIStarter/templates"
 	"log/slog"
 	"net/http"
 	"strconv"
@@ -15,11 +16,11 @@ type guessResponse struct {
 }
 
 func (s *StarterServer) checkNumber(w http.ResponseWriter, req *http.Request) {
-	slog.Info("Check Number called")
-
 	var response guessResponse
 	guessedNumber := req.FormValue("numberGuess")
 	guess, _ := strconv.Atoi(guessedNumber)
+
+	slog.Info("checkNumber called with guess ", guess)
 
 	if guess > secretNumber {
 		response = guessResponse{
@@ -41,7 +42,7 @@ func (s *StarterServer) checkNumber(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	err := s.Templates["home"].ExecuteTemplate(w, "guess-response", response)
+	err := s.Templates[templates.HomeTemplate].ExecuteTemplate(w, "guess-response", response)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
